@@ -1,0 +1,36 @@
+{
+  "name": "jest-teamcity",
+  "version": "1.0.0",
+  "description": "Jest Teamcity Reporter",
+  "homepage": "https://github.com/itereshchenkov/jest-teamcity",
+  "main": "lib/index.js",
+  "dependencies": {
+    "lodash": "^4.17.3",
+    "parsec": "^1.5.3"
+  },
+  "devDependencies": {
+    "eslint": "^3.12.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jest",
+    "teamcity",
+    "reporter",
+    "tests",
+    "unit"
+  ],
+  "author": {
+    "name": "Ivan Tereshchenkov",
+    "email": "itereshchenkov+npm@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/itereshchenkov/jest-teamcity/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/itereshchenkov/jest-teamcity.git"
+  },
+  "license": "MIT"
+}
