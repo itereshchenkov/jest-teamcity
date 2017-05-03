@@ -1,6 +1,8 @@
 # jest-teamcity
 
- TeamCity Reporter for Jest testing framework which groups tests using TeamCity Test Suites.
+[![Build Status](https://travis-ci.org/itereshchenkov/jest-teamcity.svg?branch=master)](https://travis-ci.org/itereshchenkov/jest-teamcity)
+
+TeamCity Reporter for Jest testing framework which groups tests using TeamCity Test Suites.
 
 ## Features
 
