@@ -1,0 +1,14 @@
+[
+  {
+    "testResults": [
+      { "ancestorTitles": ["path", "to", "test1"], "title": "title1", "status": "failed", "duration": 123 },
+      { "ancestorTitles": ["path", "to", "test2"], "title": "title2", "status": "pending", "duration": 123 }
+    ]
+  },
+  {
+    "testResults": [
+      { "ancestorTitles": ["path2", "to", "test3"], "title": "title3", "status": "passed", "duration": 123 },
+      { "ancestorTitles": ["path2", "to", "test4"], "title": "title4", "status": "failed", "duration": 123 }
+    ]
+  }
+]

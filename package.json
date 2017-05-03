@@ -1,25 +1,29 @@
 {
   "name": "jest-teamcity",
-  "version": "1.0.0",
-  "description": "Jest Teamcity Reporter",
+  "version": "1.1.0",
+  "description": "Teamcity Reporter for Jest Testing framework",
   "homepage": "https://github.com/itereshchenkov/jest-teamcity",
   "main": "lib/index.js",
   "dependencies": {
-    "lodash": "^4.17.3",
-    "parsec": "^1.5.3"
+    "lodash": "^4.17.3"
   },
   "devDependencies": {
-    "eslint": "^3.12.2"
+    "eslint": "^3.12.2",
+    "jest": "^19.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "jest",
     "teamcity",
     "reporter",
     "tests",
-    "unit"
+    "unit",
+    "unittest",
+    "integration",
+    "ci",
+    "cd"
   ],
   "author": {
     "name": "Ivan Tereshchenkov",

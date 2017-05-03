@@ -14,20 +14,27 @@ Install with npm: `npm install --save-dev jest-teamcity`
 ## Usage
 
 Put this into jest configuration file or package.json
-```
+```javascript
 "jest": {
     "testResultsProcessor": "jest-teamcity"
 }
+```
+
+The reported is enabled only if `TEAMCITY_VERSION` variable is set. It should work in TeamCity be default.
+
+To be able to run the tests with the reporter locally, environment variable should be set:
+
+```bash
+export TEAMCITY_VERSION="some_version"
 ```
 
 To enable TeamCity reporter, use the following option:
 `jest --teamcity`
 
 Package.json example:
-```
+```javascript
 "scripts": {
-    "test": "jest",
-    "test:teamcity": "jest --teamcity"
+    "test": "jest"
 }
 ```
 
