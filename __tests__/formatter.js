@@ -3,7 +3,7 @@
 const formatter = require('../lib/formatter');
 const testData = require('./data');
 const consoleOutput = [
-    ["##teamcity[testSuiteStarted name=\'/Users/test/foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file.js\']"],
     ["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test1\']"],
@@ -18,8 +18,8 @@ const consoleOutput = [
     ["##teamcity[testSuiteFinished name=\'test2\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
     ["##teamcity[testSuiteFinished name=\'path\']"],
-    ["##teamcity[testSuiteFinished name=\'/Users/test/foo/__tests__/file.js\']"],
-    ["##teamcity[testSuiteStarted name=\'/Users/test/foo/__tests__/file2.js\']"],
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file2.js\']"],
     ["##teamcity[testSuiteStarted name=\'path2\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test3\']"],
@@ -33,7 +33,7 @@ const consoleOutput = [
     ["##teamcity[testSuiteFinished name=\'test4\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
     ["##teamcity[testSuiteFinished name=\'path2\']"],
-    ["##teamcity[testSuiteFinished name=\'/Users/test/foo/__tests__/file2.js\']"]
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file2.js\']"]
 ];
 
 describe('jest-teamcity', () => {
@@ -74,7 +74,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
             });
 
             test('with data', () => {
-                formatter.printTestLog(formatter.collectSuites(testData));
+                formatter.printTestLog(formatter.collectSuites(testData, '/Users/test'));
                 expect(console.log.mock.calls).toEqual(consoleOutput);
             });
         });
@@ -90,12 +90,12 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
                 expect(formatter.collectSuites(null)).toEqual({});
                 expect(formatter.collectSuites(undefined)).toEqual({});
                 expect(formatter.collectSuites('')).toEqual({});
-                expect(formatter.collectSuites([])).toEqual({});
+                expect(formatter.collectSuites([], '/')).toEqual({});
             });
 
             test('with result', () => {
-                expect(formatter.collectSuites(testData)).toEqual({
-                  '/Users/test/foo/__tests__/file.js': {
+                expect(formatter.collectSuites(testData, '/Users/test')).toEqual({
+                  'foo/__tests__/file.js': {
                       path: expect.objectContaining({
                           to: expect.objectContaining({
                               test1: expect.any(Object),
@@ -103,7 +103,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
                           })
                       }),
                   },
-                  '/Users/test/foo/__tests__/file2.js': {
+                  'foo/__tests__/file2.js': {
                       path2: expect.objectContaining({
                           to: expect.objectContaining({
                               test3: expect.any(Object),
@@ -116,7 +116,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
         });
 
         test('formatReport', () => {
-            formatter.formatReport(testData);
+            formatter.formatReport(testData, '/Users/test/');
             expect(console.log.mock.calls).toEqual(consoleOutput);
         });
     });
