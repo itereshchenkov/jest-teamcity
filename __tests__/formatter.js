@@ -2,7 +2,9 @@
 
 const formatter = require('../lib/formatter');
 const testData = require('./data');
-const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
+const consoleOutput = [
+    ["##teamcity[testSuiteStarted name=\'/Users/test/foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test1\']"],
     ["##teamcity[testStarted name=\'title1\' captureStandardOutput=\'true\']"],
@@ -16,6 +18,8 @@ const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testSuiteFinished name=\'test2\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
     ["##teamcity[testSuiteFinished name=\'path\']"],
+    ["##teamcity[testSuiteFinished name=\'/Users/test/foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'/Users/test/foo/__tests__/file2.js\']"],
     ["##teamcity[testSuiteStarted name=\'path2\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test3\']"],
@@ -28,7 +32,9 @@ const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testFinished name=\'title4\' duration=\'123\']"],
     ["##teamcity[testSuiteFinished name=\'test4\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
-    ["##teamcity[testSuiteFinished name=\'path2\']"]];
+    ["##teamcity[testSuiteFinished name=\'path2\']"],
+    ["##teamcity[testSuiteFinished name=\'/Users/test/foo/__tests__/file2.js\']"]
+];
 
 describe('jest-teamcity', () => {
     describe('formatter', () => {
@@ -88,20 +94,24 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
             });
 
             test('with result', () => {
-                expect(formatter.collectSuites(testData)).toEqual(expect.objectContaining({
-                    path: expect.objectContaining({
-                        to: expect.objectContaining({
-                            test1: expect.any(Object),
-                            test2: expect.any(Object),
-                        })
-                    }),
-                    path2: expect.objectContaining({
-                        to: expect.objectContaining({
-                            test3: expect.any(Object),
-                            test4: expect.any(Object),
-                        })
-                    })
-                }));
+                expect(formatter.collectSuites(testData)).toEqual({
+                  '/Users/test/foo/__tests__/file.js': {
+                      path: expect.objectContaining({
+                          to: expect.objectContaining({
+                              test1: expect.any(Object),
+                              test2: expect.any(Object),
+                          })
+                      }),
+                  },
+                  '/Users/test/foo/__tests__/file2.js': {
+                      path2: expect.objectContaining({
+                          to: expect.objectContaining({
+                              test3: expect.any(Object),
+                              test4: expect.any(Object),
+                          })
+                      })
+                  }
+                });
             });
         });
 
