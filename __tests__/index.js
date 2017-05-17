@@ -1,6 +1,8 @@
 'use strict';
 
-const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
+const consoleOutput = [
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test1\']"],
     ["##teamcity[testStarted name=\'title1\' captureStandardOutput=\'true\']"],
@@ -14,6 +16,8 @@ const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testSuiteFinished name=\'test2\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
     ["##teamcity[testSuiteFinished name=\'path\']"],
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file.js\']"],
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file2.js\']"],
     ["##teamcity[testSuiteStarted name=\'path2\']"],
     ["##teamcity[testSuiteStarted name=\'to\']"],
     ["##teamcity[testSuiteStarted name=\'test3\']"],
@@ -26,7 +30,9 @@ const consoleOutput = [["##teamcity[testSuiteStarted name=\'path\']"],
     ["##teamcity[testFinished name=\'title4\' duration=\'123\']"],
     ["##teamcity[testSuiteFinished name=\'test4\']"],
     ["##teamcity[testSuiteFinished name=\'to\']"],
-    ["##teamcity[testSuiteFinished name=\'path2\']"]];
+    ["##teamcity[testSuiteFinished name=\'path2\']"],
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file2.js\']"]
+];
 const testData = require('./data');
 const reporter = require('../lib/index');
 
@@ -46,8 +52,11 @@ describe('jest-teamcity', () => {
     describe('module', () => {
         test('enabled (with TEAMCITY_VERSION)', () => {
             process.env.TEAMCITY_VERSION = '0.0.0';
+            const originalCwd = process.cwd();
+            process.cwd = function () { return '/Users/test'; };
             reporter({ testResults: testData });
             expect(console.log.mock.calls).toEqual(consoleOutput);
+            process.cwd = originalCwd;
         });
 
         test('disabled', () => {
