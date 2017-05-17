@@ -1,5 +1,9 @@
 #CHANGELOG
 
+## 1.2.0 - 2017-05-18
+### Added
+- Included filename into suite hierarchy
+
 ## 1.1.0 - 2017-05-04
 ### Added
 - covered with Unit Tests
