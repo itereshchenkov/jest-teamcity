@@ -1,6 +1,6 @@
 #CHANGELOG
 
-## 1.2.1 - 2017-06-26
+## 1.2.1, 1.2.2 - 2017-06-26
 ### Removed
 - Removed captureStandardOutput attr from report in order to allow test suite do exist(1)
 
