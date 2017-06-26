@@ -1,5 +1,9 @@
 #CHANGELOG
 
+## 1.3.0 - 2017-06-27
+### Fixed
+- Fixed issue with doing exit(1) in case of failed test suites
+
 ## 1.2.1, 1.2.2 - 2017-06-26
 ### Removed
 - Removed captureStandardOutput attr from report in order to allow test suite do exist(1)
