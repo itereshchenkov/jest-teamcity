@@ -1,5 +1,9 @@
 #CHANGELOG
 
+## 1.2.1 - 2017-06-26
+### Removed
+- Removed captureStandardOutput attr from report in order to allow test suite do exist(1)
+
 ## 1.2.0 - 2017-05-18
 ### Added
 - Included filename into suite hierarchy
