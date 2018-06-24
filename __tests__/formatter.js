@@ -65,25 +65,6 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
             });
         });
 
-        describe('printTestLog', () => {
-            test('empty tests', () => {
-                ['', null, undefined, {}, [], 0].forEach((data) => {
-                    formatter.printTestLog(data);
-                    expect(console.log.mock.calls).toHaveLength(0);
-                });
-            });
-
-            test('with data', () => {
-                formatter.printTestLog(formatter.collectSuites(testData, '/Users/test'));
-                expect(console.log.mock.calls).toEqual(consoleOutput);
-            });
-        });
-
-        test('log', () => {
-            formatter.log('test');
-            expect(console.log.mock.calls[0][0]).toEqual('test');
-        });
-
         describe('collectSuites', () => {
             test('empty', () => {
                 expect(formatter.collectSuites()).toEqual({});
