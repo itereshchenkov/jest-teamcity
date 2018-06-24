@@ -17,9 +17,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: 
-        name: Install Dependencies
-        command: |
-          npm i && npm i codecov
+          name: Install Dependencies
+          command: |
+            npm i && npm i codecov
       - save_cache:
           paths:
             - node_modules
