@@ -4,26 +4,59 @@
 #
 version: 2
 jobs:
-  build:
+  npm_install:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10
-
+      - image: circleci/node:latest
+    working_directory: ~/app
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
-      - run: npm install
-
+      - run: 
+        name: Install Dependencies
+        command: |
+          npm i && npm i codecov
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      - run: npm test
+      - persist_to_workspace:
+          root: .
+          paths: node_modules/*
+  
+  test: 
+    docker:
+      - image: circleci/node:latest
+    working_directory: ~/app
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Run tests
+          command: npm test
+          when: always
+      - run:
+          name: Coverage
+          command:
+            npx codecov
+          environment:
+            CODECOV_TOKEN: c13e13df-18b6-4f5b-aa77-cd3d89cbb53e
+      - store_test_results:
+          path: coverage
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - npm_install
+      - test:
+          requires:
+            - npm_install
