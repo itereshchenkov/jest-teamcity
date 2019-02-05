@@ -1,4 +1,7 @@
 #CHANGELOG
+## 1.4.0 - 2019-02-05
+### Changed
+- Updated dependencies
 
 ## 1.3.0 - 2017-06-27
 ### Fixed
