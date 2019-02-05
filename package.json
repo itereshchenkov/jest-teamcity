@@ -5,11 +5,11 @@
   "homepage": "https://github.com/itereshchenkov/jest-teamcity",
   "main": "lib/index.js",
   "dependencies": {
-    "lodash": "^4.17.3"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "eslint": "^3.12.2",
-    "jest": "^19.0.2"
+    "eslint": "^5.13.0",
+    "jest": "^24.1.0"
   },
   "scripts": {
     "test": "jest"
