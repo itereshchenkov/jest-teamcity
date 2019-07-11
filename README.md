@@ -22,7 +22,7 @@ Put this into jest configuration file or package.json
 }
 ```
 
-The reported is enabled only if `TEAMCITY_VERSION` variable is set. It should work in TeamCity be default.
+The reported is enabled only if `TEAMCITY_VERSION` variable is set. It should work in TeamCity by default.
 
 To be able to run the tests with the reporter locally, environment variable should be set:
 
