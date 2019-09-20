@@ -1,55 +1,63 @@
 'use strict';
 
+const path = require('path');
 const formatter = require('../lib/formatter');
 const testData = require('./data');
 const consoleOutput = [
-    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file.js\']"],
-    ["##teamcity[testSuiteStarted name=\'path\']"],
-    ["##teamcity[testSuiteStarted name=\'to\']"],
-    ["##teamcity[testSuiteStarted name=\'test1\']"],
-    ["##teamcity[testStarted name=\'title1\']"],
-    ["##teamcity[testFailed name=\'title1\']"],
-    ["##teamcity[testFinished name=\'title1\' duration=\'123\']"],
-    ["##teamcity[testSuiteFinished name=\'test1\']"],
-    ["##teamcity[testSuiteStarted name=\'test2\']"],
-    ["##teamcity[testStarted name=\'title2\']"],
-    ["##teamcity[testIgnored name=\'title2\' message=\'pending\']"],
-    ["##teamcity[testFinished name=\'title2\' duration=\'123\']"],
-    ["##teamcity[testSuiteFinished name=\'test2\']"],
-    ["##teamcity[testSuiteFinished name=\'to\']"],
-    ["##teamcity[testSuiteFinished name=\'path\']"],
-    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file.js\']"],
-    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file2.js\']"],
-    ["##teamcity[testSuiteStarted name=\'path2\']"],
-    ["##teamcity[testSuiteStarted name=\'to\']"],
-    ["##teamcity[testSuiteStarted name=\'test3\']"],
-    ["##teamcity[testStarted name=\'title3\']"],
-    ["##teamcity[testFinished name=\'title3\' duration=\'123\']"],
-    ["##teamcity[testSuiteFinished name=\'test3\']"],
-    ["##teamcity[testSuiteStarted name=\'test4\']"],
-    ["##teamcity[testStarted name=\'title4\']"],
-    ["##teamcity[testFailed name=\'title4\']"],
-    ["##teamcity[testFinished name=\'title4\' duration=\'123\']"],
-    ["##teamcity[testSuiteFinished name=\'test4\']"],
-    ["##teamcity[testSuiteFinished name=\'to\']"],
-    ["##teamcity[testSuiteFinished name=\'path2\']"],
-    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file2.js\']"]
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file.js\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'path\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'to\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'test1\' flowId=\'12345\']"],
+    ["##teamcity[testStarted name=\'title1\' flowId=\'12345\']"],
+    ["##teamcity[testFailed name=\'title1\' flowId=\'12345\']"],
+    ["##teamcity[testFinished name=\'title1\' duration=\'123\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'test1\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'test2\' flowId=\'12345\']"],
+    ["##teamcity[testStarted name=\'title2\' flowId=\'12345\']"],
+    ["##teamcity[testIgnored name=\'title2\' message=\'pending\' flowId=\'12345\']"],
+    ["##teamcity[testFinished name=\'title2\' duration=\'123\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'test2\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'to\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'path\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file.js\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'foo/__tests__/file2.js\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'path2\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'to\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'test3\' flowId=\'12345\']"],
+    ["##teamcity[testStarted name=\'title3\' flowId=\'12345\']"],
+    ["##teamcity[testFinished name=\'title3\' duration=\'123\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'test3\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteStarted name=\'test4\' flowId=\'12345\']"],
+    ["##teamcity[testStarted name=\'title4\' flowId=\'12345\']"],
+    ["##teamcity[testFailed name=\'title4\' flowId=\'12345\']"],
+    ["##teamcity[testFinished name=\'title4\' duration=\'123\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'test4\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'to\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'path2\' flowId=\'12345\']"],
+    ["##teamcity[testSuiteFinished name=\'foo/__tests__/file2.js\' flowId=\'12345\']"]
 ];
 
 describe('jest-teamcity', () => {
     describe('formatter', () => {
         let consoleFn = console.log;
+        let formatterFn = formatter.log;
 
         beforeAll(() => {
             console.log = jest.fn().mockImplementation(s => s);
+            const formatterMock = path.sep == '/'
+                ? s => formatterFn(s)
+                : s => formatterFn(s.replace(/\\/g, '/'));
+            formatter.log = jest.fn().mockImplementation(formatterMock);
         });
 
         beforeEach(() => {
             console.log.mockReset();
+            formatter.log.mockClear();
         });
 
         afterAll(() => {
             console.log = consoleFn;
+            formatter.log = formatterFn;
         });
 
         describe('escape()', () => {
@@ -74,7 +82,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
             });
 
             test('with data', () => {
-                formatter.printTestLog(formatter.collectSuites(testData, '/Users/test'));
+                formatter.printTestLog(formatter.collectSuites(testData, '/Users/test'), '12345');
                 expect(console.log.mock.calls).toEqual(consoleOutput);
             });
         });
@@ -94,8 +102,10 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
             });
 
             test('with result', () => {
+                const fileKey = ['foo', '__tests__', 'file.js'].join(path.sep);
+                const file2Key = ['foo', '__tests__', 'file2.js'].join(path.sep);
                 expect(formatter.collectSuites(testData, '/Users/test')).toEqual({
-                    'foo/__tests__/file.js': {
+                    [fileKey]: {
                         path: expect.objectContaining({
                             to: expect.objectContaining({
                                 test1: expect.any(Object),
@@ -103,7 +113,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
                             })
                         }),
                     },
-                    'foo/__tests__/file2.js': {
+                    [file2Key]: {
                         path2: expect.objectContaining({
                             to: expect.objectContaining({
                                 test3: expect.any(Object),
@@ -116,7 +126,7 @@ test3`)).toEqual('||test|[test2|]|||ntest3');
         });
 
         test('formatReport', () => {
-            formatter.formatReport(testData, '/Users/test/');
+            formatter.formatReport(testData, '/Users/test/', '12345');
             expect(console.log.mock.calls).toEqual(consoleOutput);
         });
     });
