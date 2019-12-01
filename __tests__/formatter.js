@@ -32,6 +32,11 @@ const consoleOutput = [
   ["##teamcity[testFailed name='title4' flowId='12345']"],
   ["##teamcity[testFinished name='title4' duration='123' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='test4' flowId='12345']"],
+  ["##teamcity[testSuiteStarted name='test5' flowId='12345']"],
+  ["##teamcity[testStarted name='title5' flowId='12345']"],
+  ["##teamcity[testFailed name='title5' message='Unexpected exception' details='at path/to/file1.js:1|n    at path/to/file2.js:2' flowId='12345']"],
+  ["##teamcity[testFinished name='title5' duration='123' flowId='12345']"],
+  ["##teamcity[testSuiteFinished name='test5' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='to' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='path2' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='foo/__tests__/file2.js' flowId='12345']"]
