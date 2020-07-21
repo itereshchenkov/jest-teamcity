@@ -1,6 +1,7 @@
 # jest-teamcity
 
 [![Build Status](https://travis-ci.org/itereshchenkov/jest-teamcity.svg?branch=master)](https://travis-ci.org/itereshchenkov/jest-teamcity)
+![Package Verifier](https://github.com/itereshchenkov/jest-teamcity/workflows/Package%20Verifier/badge.svg)
 
 TeamCity Reporter for Jest testing framework which groups tests using TeamCity Test Suites.
 
