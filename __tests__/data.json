@@ -11,7 +11,8 @@
     "testResults": [
       { "ancestorTitles": ["path2", "to", "test3"], "title": "title3", "status": "passed", "duration": 123 },
       { "ancestorTitles": ["path2", "to", "test4"], "title": "title4", "status": "failed", "duration": 123 },
-      { "ancestorTitles": ["path2", "to", "test5"], "title": "title5", "status": "failed", "failureMessages": ["Unexpected exception\n    at path/to/file1.js:1\n    at path/to/file2.js:2"], "duration": 123 }
+      { "ancestorTitles": ["path2", "to", "test5"], "title": "title5", "status": "failed", "failureMessages": ["Unexpected exception\n    at path/to/file1.js:1\n    at path/to/file2.js:2"], "duration": 123 },
+      { "ancestorTitles": ["path2", "to", "constructor"], "title": "title6", "status": "passed", "duration": 123 }
     ]
   }
 ]
