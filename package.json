@@ -4,9 +4,7 @@
   "description": "Teamcity Reporter for Jest Testing framework",
   "homepage": "https://github.com/itereshchenkov/jest-teamcity",
   "main": "lib/index.js",
-  "dependencies": {
-    "lodash": "^4.17.15"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest": "^25.1.0",
     "prettier": "^1.19.1"
