@@ -138,5 +138,24 @@ test3`)
       formatter.formatReport(testData, "/Users/test/", "12345");
       expect(console.log.mock.calls).toEqual(consoleOutput);
     });
+
+    test("textExecError", () => {
+      formatter.formatReport([{
+        "testFilePath": "/Users/spec-with-error/failing.spec.ts",
+        "testResults": [],
+        "testExecError": {
+          "message": "Error:\nSomething bad is happened!",
+          "stack": "Error: Timeout of 181000 waiting for jest process 168 reached!\nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.\n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)\n    at listOnTimeout (internal/timers.js:549:17)\n    at processTimers (internal/timers.js:492:7)",
+          "type": "Error"
+        }
+      }], "/Users/spec-with-error", "12345");
+      expect(console.log.mock.calls).toEqual([
+        ["##teamcity[testSuiteStarted name='failing.spec.ts' flowId='12345']"],
+        ["##teamcity[testStarted name='Jest failed to execute suite' flowId='12345']"],
+        ["##teamcity[testFailed name='Jest failed to execute suite' message='Error:|nSomething bad is happened!' details='Error: Timeout of 181000 waiting for jest process 168 reached!|nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.|n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)|n    at listOnTimeout (internal/timers.js:549:17)|n    at processTimers (internal/timers.js:492:7)' flowId='12345']"],
+        ["##teamcity[testFinished name='Jest failed to execute suite' duration='0' flowId='12345']"],
+        ["##teamcity[testSuiteFinished name='failing.spec.ts' flowId='12345']"],
+      ]);
+    });
   });
 });
