@@ -16,14 +16,12 @@ Install with npm: `npm install --save-dev jest-teamcity`
 
 ## Usage
 
-Put this into jest configuration file or package.json
+Put this into tje jest configuration file:
 ```javascript
-"jest": {
-    "reporters": ["default", "jest-teamcity"]
-}
+"reporters": ["default", "jest-teamcity"]
 ```
 
-The reporter is enabled only if `TEAMCITY_VERSION` variable is set. It should work in TeamCity by default.
+The reporter is enabled only if `TEAMCITY_VERSION` environment variable is set. It should work in TeamCity by default.
 
 To be able to run the tests with the reporter locally, environment variable should be set:
 
@@ -37,6 +35,8 @@ Package.json example:
     "test": "jest"
 }
 ```
+
+With this configuration, you can run the tests with `npm test`. If the `TEAMCITY_VERSION` environment variable is set, it produces the output in TeamCity's format. Otherwise, standard jest output is produced.
 
 ### License
 
