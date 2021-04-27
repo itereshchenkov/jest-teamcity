@@ -16,7 +16,7 @@ Install with npm: `npm install --save-dev jest-teamcity`
 
 ## Usage
 
-Put this into tje jest configuration file:
+Add this into the jest configuration file:
 ```javascript
 "reporters": ["default", "jest-teamcity"]
 ```
