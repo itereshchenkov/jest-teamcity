@@ -53,10 +53,6 @@ describe("jest-teamcity", () => {
     console.log.mockReset();
   });
 
-  afterAll(() => {
-    console.log = consoleFn;
-  });
-
   describe("module", () => {
     it("enabled (with TEAMCITY_VERSION)", () => {
       process.env.TEAMCITY_VERSION = "0.0.0";
