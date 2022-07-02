@@ -43,11 +43,55 @@ With this configuration, you can run the tests with `npm test`. If the `TEAMCITY
 Jest config currently does not support passing any options to testResultsProcessor config.
 However, if used as a reporter, this plugin can be configured.
 
+**rootDir**
 To change the rootDir config, pass it as a configuration to your reporter as so:
 
 ```javascript
 //jest.config.js
 "reporters": [["jest-teamcity", {"rootDir": "/path/to/your/dir"}]]
+```
+
+**testNameGenerator**
+You can change how test names are generated to configure how test names show up in teamcity.
+Example:
+```javascript
+//jest.config.js
+reporters: [
+  [
+    'jest-teamcity',
+    {
+      testNameGenerator: (test) => {
+        return [...test.ancestorTitles, test.title].join('.');
+      },
+    },
+  ],
+],
+```
+
+**suiteNameGenerator**
+You can also now change how suite names are chosen, rather than simply using file path.
+Example:
+```javascript
+//jest.config.js
+reporters: [
+  [
+    'jest-teamcity',
+    {
+      suiteNameGenerator: (test, filename, suites) => {
+        if (filename.includes('automation/tests')) {
+          return 'Integration tests';
+        }
+
+        if (filename.indexOf('service/' === 0)) {
+          const [_, serviceName] = filename.split('/');
+          return serviceName;
+        }
+
+        return filename;
+      },
+    },
+  ],
+],
 ```
 
 ### License
