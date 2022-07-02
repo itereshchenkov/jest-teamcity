@@ -38,6 +38,18 @@ Package.json example:
 
 With this configuration, you can run the tests with `npm test`. If the `TEAMCITY_VERSION` environment variable is set, it produces the output in TeamCity's format. Otherwise, standard jest output is produced.
 
+## Configuration
+
+Jest config currently does not support passing any options to testResultsProcessor config.
+However, if used as a reporter, this plugin can be configured.
+
+To change the rootDir config, pass it as a configuration to your reporter as so:
+
+```javascript
+//jest.config.js
+"reporters": [["jest-teamcity", {"rootDir": "/path/to/your/dir"}]]
+```
+
 ### License
 
 MIT © [Ivan Tereshchenkov]
