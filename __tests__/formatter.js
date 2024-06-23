@@ -34,7 +34,9 @@ const consoleOutput = [
   ["##teamcity[testSuiteFinished name='test4' flowId='12345']"],
   ["##teamcity[testSuiteStarted name='test5' flowId='12345']"],
   ["##teamcity[testStarted name='title5' flowId='12345']"],
-  ["##teamcity[testFailed name='title5' message='Unexpected exception' details='at path/to/file1.js:1|n    at path/to/file2.js:2' flowId='12345']"],
+  [
+    "##teamcity[testFailed name='title5' message='Unexpected exception' details='at path/to/file1.js:1|n    at path/to/file2.js:2' flowId='12345']",
+  ],
   ["##teamcity[testFinished name='title5' duration='123' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='test5' flowId='12345']"],
   ["##teamcity[testSuiteStarted name='constructor' flowId='12345']"],
@@ -43,7 +45,7 @@ const consoleOutput = [
   ["##teamcity[testSuiteFinished name='constructor' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='to' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='path2' flowId='12345']"],
-  ["##teamcity[testSuiteFinished name='foo/__tests__/file2.js' flowId='12345']"]
+  ["##teamcity[testSuiteFinished name='foo/__tests__/file2.js' flowId='12345']"],
 ];
 
 describe("jest-teamcity", () => {
@@ -52,8 +54,8 @@ describe("jest-teamcity", () => {
     let formatterFn = formatter.log;
 
     beforeAll(() => {
-      console.log = jest.fn().mockImplementation(s => s);
-      const formatterMock = path.sep == "/" ? s => formatterFn(s) : s => formatterFn(s.replace(/\\/g, "/"));
+      console.log = jest.fn().mockImplementation((s) => s);
+      const formatterMock = path.sep == "/" ? (s) => formatterFn(s) : (s) => formatterFn(s.replace(/\\/g, "/"));
       formatter.log = jest.fn().mockImplementation(formatterMock);
     });
 
@@ -77,14 +79,14 @@ describe("jest-teamcity", () => {
       test("escape", () => {
         expect(
           formatter.escape(`|test[test2]|
-test3`)
+test3`),
         ).toEqual("||test|[test2|]|||ntest3");
       });
     });
 
     describe("printTestLog", () => {
       test("empty tests", () => {
-        ["", null, undefined, {}, [], 0].forEach(data => {
+        ["", null, undefined, {}, [], 0].forEach((data) => {
           formatter.printTestLog(data);
           expect(console.log.mock.calls).toHaveLength(0);
         });
@@ -118,18 +120,18 @@ test3`)
             path: expect.objectContaining({
               to: expect.objectContaining({
                 test1: expect.any(Object),
-                test2: expect.any(Object)
-              })
-            })
+                test2: expect.any(Object),
+              }),
+            }),
           },
           [file2Key]: {
             path2: expect.objectContaining({
               to: expect.objectContaining({
                 test3: expect.any(Object),
-                test4: expect.any(Object)
-              })
-            })
-          }
+                test4: expect.any(Object),
+              }),
+            }),
+          },
         });
       });
     });
@@ -140,19 +142,28 @@ test3`)
     });
 
     test("textExecError", () => {
-      formatter.formatReport([{
-        "testFilePath": "/Users/spec-with-error/failing.spec.ts",
-        "testResults": [],
-        "testExecError": {
-          "message": "Error:\nSomething bad is happened!",
-          "stack": "Error: Timeout of 181000 waiting for jest process 168 reached!\nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.\n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)\n    at listOnTimeout (internal/timers.js:549:17)\n    at processTimers (internal/timers.js:492:7)",
-          "type": "Error"
-        }
-      }], "/Users/spec-with-error", "12345");
+      formatter.formatReport(
+        [
+          {
+            testFilePath: "/Users/spec-with-error/failing.spec.ts",
+            testResults: [],
+            testExecError: {
+              message: "Error:\nSomething bad is happened!",
+              stack:
+                "Error: Timeout of 181000 waiting for jest process 168 reached!\nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.\n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)\n    at listOnTimeout (internal/timers.js:549:17)\n    at processTimers (internal/timers.js:492:7)",
+              type: "Error",
+            },
+          },
+        ],
+        "/Users/spec-with-error",
+        "12345",
+      );
       expect(console.log.mock.calls).toEqual([
         ["##teamcity[testSuiteStarted name='failing.spec.ts' flowId='12345']"],
         ["##teamcity[testStarted name='Jest failed to execute suite' flowId='12345']"],
-        ["##teamcity[testFailed name='Jest failed to execute suite' message='Error:|nSomething bad is happened!' details='Error: Timeout of 181000 waiting for jest process 168 reached!|nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.|n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)|n    at listOnTimeout (internal/timers.js:549:17)|n    at processTimers (internal/timers.js:492:7)' flowId='12345']"],
+        [
+          "##teamcity[testFailed name='Jest failed to execute suite' message='Error:|nSomething bad is happened!' details='Error: Timeout of 181000 waiting for jest process 168 reached!|nThat means that your test suite, the spec file, took too much time to execute. Try spliting the spec to multiple specs.|n    at Timeout._onTimeout (evalmachine.<anonymous>:1901:31)|n    at listOnTimeout (internal/timers.js:549:17)|n    at processTimers (internal/timers.js:492:7)' flowId='12345']",
+        ],
         ["##teamcity[testFinished name='Jest failed to execute suite' duration='0' flowId='12345']"],
         ["##teamcity[testSuiteFinished name='failing.spec.ts' flowId='12345']"],
       ]);

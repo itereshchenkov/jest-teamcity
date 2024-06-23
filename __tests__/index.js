@@ -29,7 +29,9 @@ const consoleOutput = [
   ["##teamcity[testSuiteFinished name='test4' flowId='12345']"],
   ["##teamcity[testSuiteStarted name='test5' flowId='12345']"],
   ["##teamcity[testStarted name='title5' flowId='12345']"],
-  ["##teamcity[testFailed name='title5' message='Unexpected exception' details='at path/to/file1.js:1|n    at path/to/file2.js:2' flowId='12345']"],
+  [
+    "##teamcity[testFailed name='title5' message='Unexpected exception' details='at path/to/file1.js:1|n    at path/to/file2.js:2' flowId='12345']",
+  ],
   ["##teamcity[testFinished name='title5' duration='123' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='test5' flowId='12345']"],
   ["##teamcity[testSuiteStarted name='constructor' flowId='12345']"],
@@ -38,7 +40,7 @@ const consoleOutput = [
   ["##teamcity[testSuiteFinished name='constructor' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='to' flowId='12345']"],
   ["##teamcity[testSuiteFinished name='path2' flowId='12345']"],
-  ["##teamcity[testSuiteFinished name='foo/__tests__/file2.js' flowId='12345']"]
+  ["##teamcity[testSuiteFinished name='foo/__tests__/file2.js' flowId='12345']"],
 ];
 const testData = require("./data");
 const reporter = require("../lib/index");
@@ -46,7 +48,7 @@ const reporter = require("../lib/index");
 describe("jest-teamcity", () => {
   beforeAll(() => {
     process.env.TEAMCITY_FLOWID = 12345;
-    console.log = jest.fn().mockImplementation(s => s);
+    console.log = jest.fn().mockImplementation((s) => s);
   });
 
   beforeEach(() => {
@@ -58,7 +60,7 @@ describe("jest-teamcity", () => {
       process.env.TEAMCITY_VERSION = "0.0.0";
 
       const originalCwd = process.cwd();
-      process.cwd = function() {
+      process.cwd = function () {
         return "/Users/test";
       };
       reporter({ testResults: testData });
