@@ -13,10 +13,10 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: 
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
           name: Install Dependencies
           command: |
             npm i && npm i codecov
@@ -27,8 +27,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: node_modules/*
-  
-  test: 
+
+  test:
     docker:
       - image: circleci/node:latest
     working_directory: ~/app
@@ -42,8 +42,7 @@ jobs:
           when: always
       - run:
           name: Coverage
-          command:
-            npx codecov
+          command: npx codecov
           environment:
             CODECOV_TOKEN: c13e13df-18b6-4f5b-aa77-cd3d89cbb53e
       - store_test_results:

@@ -7,16 +7,18 @@ TeamCity Reporter for Jest testing framework which groups tests using TeamCity T
 
 ## Features
 
-* grouping tests by test suites
-* output tests duration
-* output pending, failed test with message and stack
+- grouping tests by test suites
+- output tests duration
+- output pending, failed test with message and stack
 
 ## Install
+
 Install with npm: `npm install --save-dev jest-teamcity`
 
 ## Usage
 
 Add this into the jest configuration file:
+
 ```javascript
 "reporters": ["default", "jest-teamcity"]
 ```
@@ -30,6 +32,7 @@ export TEAMCITY_VERSION="some_version"
 ```
 
 Package.json example:
+
 ```javascript
 "scripts": {
     "test": "jest"
